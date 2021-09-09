@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, loginName } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router , { resetRouter } from '@/router'
 import qs from 'qs'
@@ -61,6 +61,7 @@ const actions = {
     })
   },
 
+ 
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -70,7 +71,7 @@ const actions = {
           roles: [userData.role],
           introduction: 'Administrator',
           avatar: 'https://cloud.xiaoxingbobo.top/nongzhibang/20210429/1107491622257669573',
-          name: userData.name,
+          // name: userData.name,
           num: userData.sub
         }
       }
@@ -89,7 +90,7 @@ const actions = {
         }
     
         commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
+        // commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_NUM', num)
         resolve(data)

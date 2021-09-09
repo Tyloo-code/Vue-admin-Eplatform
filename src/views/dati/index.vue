@@ -168,8 +168,8 @@ export default {
       myList:'',
       myTitle:'',
       myListLoading:'',
-      studentId:'7190276',
-      studentName:'css',
+      studentId:'',
+      studentName:'',
       myAnswer:'',
       dialogImageUrl: '',
       dialogVisible: false,
@@ -241,7 +241,6 @@ export default {
       set(v){
         this.item = v;
         v.forEach(item => {
-          console.log(item.label)
         })
       }
     },
@@ -254,7 +253,6 @@ export default {
       set(v){
         this.item = v;
         v.forEach(item => {
-          console.log(item.label)
         })
       }
     },
@@ -267,7 +265,6 @@ export default {
       set(v){
         this.item = v;
         v.forEach(item => {
-          console.log(item.label)
         })
       }
     },
@@ -280,19 +277,14 @@ export default {
       set(v){
         this.item = v;
         v.forEach(item => {
-          console.log(item.label)
         })
       }
     },
   },
   created(){
     this.fetchData1();
-    
     this.myToken.num = jwt_decode(getToken()).sub
-    this.myToken.name = jwt_decode(getToken()).name
     this.myToken.role = jwt_decode(getToken()).role
-
-     
   },
   mounted(){
  
@@ -351,17 +343,14 @@ export default {
         this.studentAnswerGroup.quiz.markdown = this.myList.markdown;
         // 修改student字段
         this.studentAnswerGroup.student.id = this.myToken.num;
-        this.studentAnswerGroup.student.name = this.myToken.name;
+        this.studentAnswerGroup.student.name = this.$store.getters.name;
         this.studentAnswerGroup.student.role = this.myToken.role;
-
 
         for(let i = 0; i < this.myList.questions.length; i++){
           if(this.myList.questions[i].questionType === "表格"){
             this.isBiaoButton = true;
           }
         }
-        
-        // console.log(this.myList);
         
         this.questionGroupe = new Array(this.myList.questions.length);
         for(let i = 0; i < this.myList.questions.length; i++){
@@ -396,7 +385,6 @@ export default {
     handleSuccess(response) {
       this.$message.success("上传成功");
       this.myImagePath = `https://homeworksystem.podolski.cn/${response.value}`;
-      console.log(this.myImagePath);
     },
     handleError() {
       this.$message.error("上传失败,请重新上传图片!");
@@ -420,7 +408,7 @@ export default {
         delete(item.score);
         delete(item.standardAnswer);
       })
-      console.log(this.myAnswer.questions);
+
       delete(this.myAnswer.markdown);
      
 

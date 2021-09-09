@@ -49,6 +49,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { getStudentName } from '@/api/answer'
 
 export default {
   name: 'Login',
@@ -106,7 +107,11 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: '/test' || '/' })
+            let studentId = this.$store.getters.num
+            getStudentName(studentId).then(({ data }) => {
+              this.$store.commit('user/SET_NAME',data.name)
+            })
             this.loading = false
           }).catch(() => {
             this.loading = false

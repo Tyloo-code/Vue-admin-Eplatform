@@ -20,8 +20,8 @@
         <el-button @click="handleSearch" class="button">查询</el-button>
       </div>
     </div>
-  
-  <!-- isMain -->
+
+    <!-- isMain -->
     <el-table
       v-if="isMain"
       v-loading="listLoading"
@@ -36,8 +36,8 @@
       </el-table-column>
       <el-table-column align="center" label="课程" width="95">
         <template slot-scope="scope" v-if="scope.row.courses">
-        {{ `${scope.row.courses[0].name}`}}
-        <!-- <div>
+          {{ `${scope.row.courses[0].name}` }}
+          <!-- <div>
            
               <ul>
                 <li v-for="item in scope.row.courses" >
@@ -79,7 +79,7 @@
       </el-table-column>-->
     </el-table>
 
-<!-- isSecond -->
+    <!-- isSecond -->
     <el-table
       v-if="isSecond"
       v-loading="listLoading"
@@ -93,9 +93,9 @@
         <template slot-scope="scope">{{ scope.$index }}</template>
       </el-table-column>
       <el-table-column align="center" label="课程" width="95">
-        <template slot-scope="scope" >
-        {{ `${scope.row.course}`}}
-        <!-- <div>
+        <template slot-scope="scope">
+          {{ `${scope.row.course}` }}
+          <!-- <div>
            
               <ul>
                 <li v-for="item in scope.row.courses" >
@@ -135,27 +135,31 @@
         </template>
       </el-table-column>-->
     </el-table>
-    <el-dialog :title="editDialog.title" :visible.sync="editDialog.visible" width="50%">
+    <el-dialog
+      :title="editDialog.title"
+      :visible.sync="editDialog.visible"
+      width="50%"
+    >
       <div v-html="this.content"></div>
       <div>
-            <el-button @click="editDialog.visible = false">取消</el-button>
+        <el-button @click="editDialog.visible = false">取消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getList, deletequiz, getoList,getcourseList } from "@/api/table";
-import { getquizbyid } from '@/api/dashboard';
-import { quizList ,coueseList} from '@/api/menu'
+import { getList, deletequiz, getoList, getcourseList } from '@/api/table'
+import { getquizbyid } from '@/api/dashboard'
+import { quizList, coueseList } from '@/api/menu'
 export default {
-  name:'xSheng',
+  name: 'xSheng',
   data() {
     return {
-      myList:null,
-      myArr:null,
-      isMain:true,
-      isSecond:false,
+      myList: null,
+      myArr: null,
+      isMain: true,
+      isSecond: false,
       list: null,
       listLoading: true,
       form: '',
@@ -163,128 +167,122 @@ export default {
       quizList: null,
       courses: null,
       courselist: [],
-      
+
       content: '',
       editDialog: {
-        title: "新建课程",
+        title: '新建课程',
         visible: false,
-        type: ""
-      }
-    };
+        type: '',
+      },
+    }
   },
-//   computed:{
-//     iaCourse:{
-//         get(){
-//             console.log(this.list)
-//         }
-//     }
-//   },
+  //   computed:{
+  //     iaCourse:{
+  //         get(){
+  //             console.log(this.list)
+  //         }
+  //     }
+  //   },
   created() {
-    this.fetchData();
-  
+    this.fetchData()
   },
   methods: {
-    handSearch(MyCourseName){
-       this.isMain = false;
-        this.isSecond = true;
-         let odatarout = '';
-         odatarout = MyCourseName;
-         console.log(odatarout)
-          this.listLoading = true
-        getoList(odatarout).then(({ data }) => {
-          this.list = data.value
-          console.log(this.list);
-          
-          this.list.forEach((item, index) => {
-            let myQuizzes = item.quizzes
-            myQuizzes.forEach((item, index) => {
-              var myObj = {};
-              myObj = {'course':this.courses,'name':item.name};
-              item.myObj = myObj;
-            })
+    handSearch(MyCourseName) {
+      this.isMain = false
+      this.isSecond = true
+      let odatarout = ''
+      odatarout = MyCourseName
+      console.log(odatarout)
+      this.listLoading = true
+      getoList(odatarout).then(({ data }) => {
+        this.list = data.value
+        this.list.forEach((item, index) => {
+          let myQuizzes = item.quizzes
+          myQuizzes.forEach((item, index) => {
+            var myObj = {}
+            myObj = { course: this.courses, name: item.name }
+            item.myObj = myObj
           })
-          console.log(this.list);
-          this.myArr = [];
-          // this.myList = {};
-          for(let i = 0; i < this.list[0].quizzes.length; i++){
-            this.myArr.push(this.list[0].quizzes[i].myObj);
-            // [].push.apply(myList,this.list[0].quizzes[i].myObj)
-          }
-           console.log(this.myArr);
-          this.listLoading = false
-        }) 
+        })
+        this.myArr = []
+        // this.myList = {};
+        for (let i = 0; i < this.list[0].quizzes.length; i++) {
+          this.myArr.push(this.list[0].quizzes[i].myObj)
+          // [].push.apply(myList,this.list[0].quizzes[i].myObj)
+        }
+        this.listLoading = false
+      })
     },
     handleSearch() {
-        this.handSearch(this.courses)
+      this.handSearch(this.courses)
     },
-    handleview(id){
+    handleview(id) {
       this.$router.push({
-        name:'stuAnswer',
-        params:{
-          id
-        }
+        name: 'stuAnswer',
+        params: {
+          id,
+        },
       })
     },
     handledelete(id) {
       this.$router.push({
-        name:'stuDati',
-        params:{
-          id
-        }
+        name: 'stuDati',
+        params: {
+          id,
+        },
       })
     },
     toEidt(id) {
       this.$router.push({
-        path:'/dashboard',
+        path: '/dashboard',
         query: {
           replace: 1,
-          id:id
-          }
+          id: id,
+        },
       })
     },
     toTest(id) {
-      for(let i =0;i<this.list.length;i++) {
-        if(this.list[i].id == id) {
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].id == id) {
           this.content = this.list[i].markdown
         }
       }
       this.editDialog = {
-        title: "试卷预览",
+        title: '试卷预览',
         visible: true,
-        type: "add",
-        method: "put"
-      };
+        type: 'add',
+        method: 'put',
+      }
     },
     fetchData() {
-      console.log(this.$route.query.name);
-      if (this.$route.query.name){
+      console.log(this.$route.query.name)
+      if (this.$route.query.name) {
         this.handSearch(this.$route.query.name)
       }
-      this.isMain = true;
-      this.isSecond = false;
-      this.listLoading = true;
+      this.isMain = true
+      this.isSecond = false
+      this.listLoading = true
       getcourseList().then(({ data }) => {
-        
-        this.list = data.value;
-        console.log(this.list);
+        this.list = data.value
+        console.log(this.list)
         // let courseName = [];
         // let senderName = [];
         // this.list.forEach((item, index) => {
         //     courseName[index] = item.courses;
         //     console.log(courseName);
         // })
-      
-        this.listLoading = false;
-      });
+
+        this.listLoading = false
+      })
       coueseList().then(({ data }) => {
-        this.courselist = data.value;
-      });
-    }
-  }
-};
+        this.courselist = data.value
+      })
+    },
+  },
+}
 </script>
 <style lang="scss" scoped>
-  .search-group {
+.search-group {
   width: 750px;
   .input {
     width: 150px;

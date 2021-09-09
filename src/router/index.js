@@ -62,7 +62,7 @@ export const constantRoutes = [
     children: [
       {
         path: "test",
-        name: "Test",
+        name: "test",
         component: () => import("@/views/test/index"),
         meta: { title: "页面测试", icon: "nested" },
         hidden:true
@@ -117,7 +117,7 @@ export const asyncRoutes = [
   {
     path: "/nested",
     component: Layout,
-    redirect: "/nested/menu1",
+    // redirect: "/nested/menu1",
     meta: {
       title: "课程管理",
       icon: "nested",
@@ -147,7 +147,7 @@ export const asyncRoutes = [
   {
     path: "/dashboard",
     component: Layout,
-    redirect: "/dashboard",
+    // redirect: "/dashboard",
     children: [
       {
         path: "dashboard",
@@ -174,7 +174,7 @@ export const asyncRoutes = [
   {
     path: "/form",
     component: Layout,
-    redirect: "/form/class",
+    // redirect: "/form/class",
     meta: {
       title: "班级管理",
       icon: "form",
@@ -206,8 +206,8 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: "/teacherhomework",
-        name: "/Teacherhomework",
+        path: "teacherhomework",
+        name: "Teacherhomework",
         component: () => import("@/views//teacherhomework/index0"),
         meta: { title: "教师作业管理", icon: "link" , roles: ['Teacher','Maintainer']}
       },
@@ -225,8 +225,8 @@ export const asyncRoutes = [
     hidden:true,
     children: [
       {
-        path: "/teacherhomework1",
-        name: "/Teacherhomework1",
+        path: "teacherhomework1",
+        name: "Teacherhomework1",
         component: () => import("@/views//teacherhomework/index1"),
         meta: {  roles: ['Teacher','Maintainer']},
         hidden:true
