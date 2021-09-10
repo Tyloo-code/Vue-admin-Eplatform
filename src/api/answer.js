@@ -7,6 +7,14 @@ export function getStudentAnswers(studentId, quizId, params) {
     })
   }
 
+export function getStudentAnswersOne(params) {
+  return request({
+    url: `/api/StudentAnswerGroups/GetOne`,
+    method: 'get',
+    params
+  })
+}
+
 export function getStudentName(studentId) {
   return request({
     url: `/api/Students('${studentId}')`,

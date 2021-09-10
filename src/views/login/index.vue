@@ -91,6 +91,9 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+   
+  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -111,6 +114,7 @@ export default {
             let studentId = this.$store.getters.num
             getStudentName(studentId).then(({ data }) => {
               this.$store.commit('user/SET_NAME',data.name)
+              localStorage.setItem('name',data.name)
             })
             this.loading = false
           }).catch(() => {

@@ -1,4 +1,4 @@
-import { login, logout, getInfo, loginName } from '@/api/user'
+import { login, getStudentName } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router , { resetRouter } from '@/router'
 import qs from 'qs'
@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
+    name: localStorage.getItem('name'),
     avatar: '',
     roles: [],
     num:''
@@ -61,7 +61,7 @@ const actions = {
     })
   },
 
- 
+  
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -77,7 +77,6 @@ const actions = {
       }
       const { data } = response;
 
-      
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
@@ -93,6 +92,7 @@ const actions = {
         // commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_NUM', num)
+        localStorage.setItem('num',num)
         resolve(data)
     })
   },

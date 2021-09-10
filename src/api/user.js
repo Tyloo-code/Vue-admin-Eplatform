@@ -21,3 +21,10 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getStudentName(studentId) {
+  return request({
+    url: `/api/Students('${studentId}')`,
+    method: 'get',
+  })
+}
